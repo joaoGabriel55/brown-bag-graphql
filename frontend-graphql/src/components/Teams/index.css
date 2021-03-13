@@ -1,0 +1,38 @@
+.content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../images/background.jpg");
+  background-size: cover;
+}
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  width: 100%;
+  margin: 38px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-team-button button {
+  cursor: pointer;
+  position: fixed;
+  bottom: 92px;
+  right: 48px;
+  border-radius: 100%;
+  padding: 4px 16px 4px 16px;
+  color: green;
+  border: none;
+  outline: none;
+}
+
+.add-team-button button:hover {
+  background-color: rgb(211, 211, 211);
+}
+
+.add-team-button span {
+  font-size:48px
+}

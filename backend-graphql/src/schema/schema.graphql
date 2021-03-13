@@ -1,0 +1,54 @@
+type Team {
+  id: ID!
+  name: String!
+  foundation: Int!
+  players: [Player]
+}
+
+type Player {
+  id: ID!
+  name: String!
+  age: Int!
+  position: String!
+  team: Team!
+}
+
+type TeamOutput {
+  id: ID!
+  name: String!
+  foundation: Int!
+  players: [PlayerOutput!]!
+}
+
+type PlayerOutput {
+  id: ID!
+  name: String!
+  age: Int!
+  position: String!
+}
+
+input PlayerInput {
+  name: String!
+  age: Int!
+  position: String!
+}
+
+type Query {
+  findAllTeams: [TeamOutput!]!
+  findTeamPlayers(teamId: String!): [PlayerOutput!]!
+}
+
+type Mutation {
+  storeTeam(name: String!, foundation: Int!): TeamOutput!
+  storeTeamPlayers(teamId: String!, players: [PlayerInput!]!): [Player!]!
+}
+
+type Subscription {
+  teamAdded: TeamOutput
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
