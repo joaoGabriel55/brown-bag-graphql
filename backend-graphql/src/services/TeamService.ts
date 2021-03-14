@@ -24,20 +24,21 @@ export const index = async (): Promise<any[]> => {
   let players = [];
   const teamsWithPlayers: any = [];
   for (const team of teams) {
-    const { id, name, foundation } = team;
+    const { id, name, foundation, logoUrl } = team;
     players = await Promise.all(
       team.players.map(async (playerId: string) => {
         const player = await PlayerModel.findById(playerId);
-        const { id, name, age, position } = player;
+        const { id, name, age, position, photoUrl } = player;
         return {
           id,
           name,
           age,
           position,
+          photoUrl
         };
       })
     );
-    teamsWithPlayers.push({ id, name, foundation, players });
+    teamsWithPlayers.push({ id, name, foundation, logoUrl, players });
   }
   return teamsWithPlayers;
 };

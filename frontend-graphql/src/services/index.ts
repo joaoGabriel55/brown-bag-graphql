@@ -6,8 +6,12 @@ export const TEAMS = gql`
       id
       name
       foundation
+      logoUrl
       players {
         name
+        age
+        photoUrl
+        position
       }
     }
   }
