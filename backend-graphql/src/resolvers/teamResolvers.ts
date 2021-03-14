@@ -1,6 +1,5 @@
 import { PubSub } from "graphql-subscriptions";
-import Player from "../models/Player";
-import { index, store, storeTeamPlayers } from "../services/TeamService";
+import { index, indexTeamPlayers, store, storeTeamPlayers } from "../services/TeamService";
 
 const pubsub = new PubSub();
 const TOPICS = {
@@ -14,14 +13,14 @@ export default {
       return teams;
     },
     async findTeamPlayers(_: void, { teamId }) {
-      const players: [] = await Player.find({ team: teamId });
+      const players: any[] = await indexTeamPlayers(teamId);
       return players;
     },
   },
   Mutation: {
-    async storeTeam(_: void, { name, foundation }) {
-      pubsub.publish(TOPICS.TEAM_ADD, { teamAdded: { name, foundation } });
-      const newTeam = await store({ name, foundation });
+    async storeTeam(_: void, { name, foundation, logoUrl }) {
+      pubsub.publish(TOPICS.TEAM_ADD, { teamAdded: { name, foundation, logoUrl } });
+      const newTeam = await store({ name, foundation, logoUrl });
       return newTeam;
     },
     async storeTeamPlayers(_: void, { teamId, players }) {

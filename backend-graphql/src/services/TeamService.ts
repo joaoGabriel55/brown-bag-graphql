@@ -4,6 +4,7 @@ import TeamModel from "../models/Team";
 interface Team {
   name: string;
   foundation: number;
+  logoUrl: string;
 }
 
 interface Player {
@@ -41,6 +42,11 @@ export const index = async (): Promise<any[]> => {
   return teamsWithPlayers;
 };
 
+export const indexTeamPlayers = async (teamId: string): Promise<any[]> => {
+  const players: any[] = await PlayerModel.find({ team: teamId });
+  return players
+}
+
 export const store = async (team: Team): Promise<Team> => {
   const newTeam = await TeamModel.create(team);
   return newTeam;
@@ -51,6 +57,7 @@ export const storeTeamPlayers = async ({
   players,
 }: TeamPlayers): Promise<Player[]> => {
   const team = await TeamModel.findById({ _id: teamId });
+  if (!team) return;
 
   const savedPlayers = [];
   for (let player of players) {
