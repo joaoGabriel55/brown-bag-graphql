@@ -10,7 +10,7 @@ function TeamTile({ team }: TeamProps) {
   const { name, logoUrl, foundation } = team;
   return (
     <div className="team-tile">
-      <img width="50" height="50" src={logoUrl} alt={name} />
+      <img width="50" height="50" src={logoUrl} alt={name} loading="lazy" />
       <div>{name}</div>
       <div>{foundation}</div>
     </div>

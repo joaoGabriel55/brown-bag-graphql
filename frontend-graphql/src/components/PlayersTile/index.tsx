@@ -12,7 +12,13 @@ function PlayersTile({ team, players }: PlayerProps) {
       <img width="50" height="50" src={team} alt={team} />
       {players.map(({ name, photoUrl, position, age }) => (
         <div className="player-tile">
-          <img width="50" height="50" src={photoUrl} alt={name} />
+          <img
+            width="50"
+            height="50"
+            src={photoUrl}
+            alt={name}
+            loading="lazy"
+          />
           <div className="player-tile-info">
             <div>
               <strong>{name}</strong>
