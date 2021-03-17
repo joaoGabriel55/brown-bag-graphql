@@ -25,26 +25,93 @@
   outline: none;
 }
 
-.form-content button {
-  font-weight: 700;
-  padding: 8px;
-  margin-bottom: 8px;
-  width: 100%;
-}
-
 .form-content h2,
 h3 {
   color: whitesmoke;
 }
 
+.button-group {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 8px;
+}
+
+.button-group > button {
+  font-weight: 700;
+  width: 100%;
+  padding: 8px 16px 8px 16px;
+  margin: 0px 12px 0px 12px;
+}
+
+.default-button {
+  cursor: pointer;
+  background-color: white;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  transition: 0.3s;
+}
+
+.default-button:hover {
+  background-color: rgb(180, 180, 180);
+}
+
+.default-button:disabled {
+  cursor: default;
+  transition: 0ms;
+  background-color: rgb(180, 180, 180);
+}
+
+.primary {
+  background-color: green;
+  color: white;
+  transition: 0.3s;
+}
+
+.primary:hover {
+  background-color: rgb(0, 73, 0);
+  color: white;
+}
+
+.danger {
+  background-color: red;
+  color: white;
+  transition: 0.3s;
+}
+
+.danger:hover {
+  background-color: rgb(168, 0, 0);
+  color: white;
+}
+
 .player-form {
   display: flex;
+  flex-direction: column;
 }
 
 .player-form > input {
   border: none;
   padding: 8px;
   margin: 12px;
+  width: 300px;
   border-radius: 4px;
   outline: none;
+}
+
+.player-form > button {
+  font-weight: 700;
+  padding: 8px 16px 8px 16px;
+  margin: 0px 12px 0px 12px;
+}
+
+.player-simple-tile {
+  color: white;
+  margin: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-simple-tile > img {
+  align-items: center;
 }
