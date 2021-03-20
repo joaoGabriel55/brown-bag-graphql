@@ -34,7 +34,7 @@ export const index = async (): Promise<any[]> => {
           name,
           age,
           position,
-          photoUrl
+          photoUrl,
         };
       })
     );
@@ -45,8 +45,8 @@ export const index = async (): Promise<any[]> => {
 
 export const indexTeamPlayers = async (teamId: string): Promise<any[]> => {
   const players: any[] = await PlayerModel.find({ team: teamId });
-  return players
-}
+  return players;
+};
 
 export const store = async (team: Team): Promise<Team> => {
   const newTeam = await TeamModel.create(team);
@@ -74,4 +74,18 @@ export const storeTeamPlayers = async ({
     }
   );
   return players;
+};
+
+export const removeTeam = async (teamId: string): Promise<Team> => {
+  try {
+    const team = await TeamModel.findById({ _id: teamId });
+    if (!team) return;
+
+    await TeamModel.deleteOne({ _id: teamId });
+    await PlayerModel.deleteMany({ team: teamId });
+    return team;
+  } catch (error) {
+    console.log(error);
+    throw Error("Error into remove team");
+  }
 };

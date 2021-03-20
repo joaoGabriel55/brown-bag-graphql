@@ -46,6 +46,7 @@ type Query {
 type Mutation {
   storeTeam(name: String!, foundation: Int!, logoUrl: String!): TeamOutput!
   storeTeamPlayers(teamId: String!, players: [PlayerInput!]!): [Player!]!
+  removeTeam(teamId: String!): TeamOutput!
 }
 
 type Subscription {
