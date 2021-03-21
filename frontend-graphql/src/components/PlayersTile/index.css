@@ -7,10 +7,10 @@
   border-radius: 8px;
   min-width: 208px;
   padding: 8px;
-  margin-bottom: 18px;
 }
 
 .players-tile :is(img) {
+  object-fit: contain;
   margin: 8px 0px 12px 0px;
 }
 

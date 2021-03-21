@@ -73,17 +73,27 @@ function NewTeam() {
     clearInputs("player-form");
   };
 
-  const saveTeam = async (e: BaseSyntheticEvent) => {
+  const removePlayer = (index: number) => {
+    const newPlayers = players.filter(
+      (_, currentIndex) => players.indexOf(players[index]) !== currentIndex
+    );
+    setPlayers([...newPlayers]);
+  };
+
+  const saveTeam = (e: BaseSyntheticEvent) => {
     e.preventDefault();
     const { name, foundation, logoUrl } = team;
-    await storeTeam({
-      variables: { name, foundation, logoUrl },
-    });
 
-    await storeTeamPlayers({
-      variables: { teamId: data.storeTeam.id, players },
-    });
-    history.goBack();
+    storeTeam({
+      variables: { name, foundation, logoUrl },
+    })
+      .then(({ data }) => {
+        const { storeTeam } = data;
+        return storeTeamPlayers({
+          variables: { teamId: storeTeam.id, players },
+        });
+      })
+      .finally(() => history.goBack());
   };
 
   const cancelOperation = (e: BaseSyntheticEvent): void => {
@@ -172,14 +182,22 @@ function NewTeam() {
             }}
           />
           {players.length > 0 &&
-            players.map((player) => (
-              <div className="player-simple-tile">
-                <img src={player.photoUrl} alt={player.name} />
+            players.map((player, index) => (
+              <div className="player-simple-tile" key={player.photoUrl}>
+                <img src={player.photoUrl} width="50" height="50" alt={player.name} />
                 <p>
                   <strong>{player.name}</strong>
                 </p>
                 <p>Age: {player.age}</p>
                 <p>Position: {player.position}</p>
+                <button
+                  className="default-button danger"
+                  onClick={() => {
+                    removePlayer(index);
+                  }}
+                >
+                  Remove player
+                </button>
               </div>
             ))}
           <button

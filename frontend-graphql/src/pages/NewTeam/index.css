@@ -53,38 +53,6 @@ h3 {
   transition: 0.3s;
 }
 
-.default-button:hover {
-  background-color: rgb(180, 180, 180);
-}
-
-.default-button:disabled {
-  cursor: default;
-  transition: 0ms;
-  background-color: rgb(180, 180, 180);
-}
-
-.primary {
-  background-color: green;
-  color: white;
-  transition: 0.3s;
-}
-
-.primary:hover {
-  background-color: rgb(0, 73, 0);
-  color: white;
-}
-
-.danger {
-  background-color: red;
-  color: white;
-  transition: 0.3s;
-}
-
-.danger:hover {
-  background-color: rgb(168, 0, 0);
-  color: white;
-}
-
 .player-form {
   display: flex;
   flex-direction: column;

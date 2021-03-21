@@ -7,7 +7,10 @@
   border-radius: 8px;
   min-width: 208px;
   padding: 8px;
-  margin-bottom: 18px;
+}
+
+.team-tile img {
+  object-fit: contain;
 }
 
 .team-tile:hover {

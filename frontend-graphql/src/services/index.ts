@@ -35,3 +35,11 @@ export const STORE_TEAM_PLAYERS = gql`
     }
   }
 `;
+
+export const REMOVE_TEAM = gql`
+  mutation RemoveTeam($teamId: String!) {
+    removeTeam(teamId: $teamId) {
+      id
+    }
+  }
+`;

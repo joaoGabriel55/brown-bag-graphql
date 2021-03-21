@@ -7,6 +7,19 @@
   height: 100%;
 }
 
+.team-content {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.team-content button {
+  margin-top: 8px;
+  margin-bottom: 18px;
+  padding: 8px;
+  font-weight: 700;
+}
+
 .see-team-players-button {
   cursor: pointer;
   width: 100%;

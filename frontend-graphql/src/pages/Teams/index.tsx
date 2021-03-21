@@ -1,43 +1,70 @@
-import { ApolloError, useQuery } from "@apollo/client";
-import React, { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import PlayersTile from "../../components/PlayersTile";
 import TeamTile from "../../components/TeamTile";
 import Team from "../../domain/Team";
 import { NEW_TEAM } from "../../router/routers";
-import { TEAMS } from "../../services";
+import { REMOVE_TEAM, TEAMS } from "../../services";
 import "./index.css";
 
 interface PageContentProps {
-  loading: boolean;
-  error: ApolloError | undefined;
-  data: any;
+  teams: Team[];
+  setTeams: React.Dispatch<React.SetStateAction<Team[]>>;
   seePlayers: boolean;
 }
 
-function PageContent({ loading, error, data, seePlayers }: PageContentProps) {
-  if (loading) return <h2>Loading...</h2>;
+function PageContent({ teams, setTeams, seePlayers }: PageContentProps) {
+  const [removeTeam] = useMutation(REMOVE_TEAM);
 
-  if (error) return <h2>Error to load data 😪</h2>;
+  const onRemoveTeam = async (teamId: string) => {
+    await removeTeam({ variables: { teamId } });
+    const newTeams = teams.filter((team) => team.id !== teamId);
+    setTeams([...newTeams]);
+  };
 
-  const { findAllTeams: teams } = data;
-
-  return teams.map((team: Team) =>
-    !seePlayers ? (
-      <TeamTile key={team.id} team={team} />
-    ) : team.players && team.players.length ? (
-      <PlayersTile team={team.logoUrl} players={team.players} />
-    ) : (
-      <TeamTile key={team.id} team={team} />
-    )
+  return (
+    <div className="team-content">
+      {teams.map((team: Team) => (
+        <>
+          {!seePlayers ? (
+            <TeamTile team={team} />
+          ) : team.players && team.players.length ? (
+            <PlayersTile team={team.logoUrl} players={team.players} />
+          ) : (
+            <TeamTile team={team} />
+          )}
+          <button
+            className="default-button danger"
+            onClick={() => onRemoveTeam(team.id)}
+          >
+            Remove team
+          </button>
+        </>
+      ))}
+    </div>
   );
 }
 
 function Teams() {
   const history = useHistory();
-  const { loading, error, data } = useQuery(TEAMS);
-
+  const { loading, error, data, refetch } = useQuery(TEAMS);
   const [seePlayers, setSeePlayers] = useState(false);
+
+  const [teams, setTeams] = useState<Team[]>([]);
+
+  useEffect(() => {
+    refetch().then(() => {
+      if (data) {
+        const { findAllTeams } = data;
+        setTeams(findAllTeams);
+      }
+    });
+  }, [data, teams]);
+
+  if (loading) return <h2>Loading...</h2>;
+
+  if (error) return <h2>Error to load data 😪</h2>;
 
   return (
     <div className="content">
@@ -55,9 +82,10 @@ function Teams() {
           </button>
         )}
         <PageContent
-          loading={loading}
-          error={error}
-          data={data}
+          teams={teams}
+          setTeams={(teams) => {
+            setTeams(teams);
+          }}
           seePlayers={seePlayers}
         />
       </div>
