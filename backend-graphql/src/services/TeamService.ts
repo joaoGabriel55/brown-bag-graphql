@@ -48,7 +48,7 @@ export const indexTeamPlayers = async (teamId: string): Promise<any[]> => {
   return players;
 };
 
-export const store = async (team: Team): Promise<Team> => {
+export const store = async (team: Team): Promise<any> => {
   const newTeam = await TeamModel.create(team);
   return newTeam;
 };

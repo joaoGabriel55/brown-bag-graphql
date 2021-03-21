@@ -25,10 +25,10 @@ export default {
   },
   Mutation: {
     async storeTeam(_: void, { name, foundation, logoUrl }) {
-      pubsub.publish(TOPICS.TEAM_ADD, {
-        teamAdded: { name, foundation, logoUrl },
-      });
       const newTeam = await store({ name, foundation, logoUrl });
+      pubsub.publish(TOPICS.TEAM_ADD, {
+        teamAdded: { id: newTeam.id, name, foundation, logoUrl },
+      });
       return newTeam;
     },
     async storeTeamPlayers(_: void, { teamId, players }) {
@@ -42,12 +42,6 @@ export default {
   },
   Subscription: {
     teamAdded: {
-      resolve: (payload: any) => {
-        console.log(payload);
-        return {
-          customData: payload,
-        };
-      },
       subscribe: () => pubsub.asyncIterator([TOPICS.TEAM_ADD]),
     },
   },

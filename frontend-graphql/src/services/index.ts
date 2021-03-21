@@ -43,3 +43,14 @@ export const REMOVE_TEAM = gql`
     }
   }
 `;
+
+export const TEAM_ADDED_SUBSCRIPTION = gql`
+  subscription TeamAdded {
+    teamAdded {
+      id
+      name
+      foundation
+      logoUrl
+    }
+  }
+`;

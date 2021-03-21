@@ -1,11 +1,11 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import PlayersTile from "../../components/PlayersTile";
 import TeamTile from "../../components/TeamTile";
 import Team from "../../domain/Team";
 import { NEW_TEAM } from "../../router/routers";
-import { REMOVE_TEAM, TEAMS } from "../../services";
+import { REMOVE_TEAM, TEAMS, TEAM_ADDED_SUBSCRIPTION } from "../../services";
 import "./index.css";
 
 interface PageContentProps {
@@ -49,22 +49,37 @@ function PageContent({ teams, setTeams, seePlayers }: PageContentProps) {
 function Teams() {
   const history = useHistory();
   const { loading, error, data, refetch } = useQuery(TEAMS);
+  const {
+    data: dataSubscription,
+    loading: loadingSubscription,
+  } = useSubscription(TEAM_ADDED_SUBSCRIPTION);
+
   const [seePlayers, setSeePlayers] = useState(false);
 
   const [teams, setTeams] = useState<Team[]>([]);
 
   useEffect(() => {
-    refetch().then(() => {
-      if (data) {
-        const { findAllTeams } = data;
-        setTeams(findAllTeams);
-      }
-    });
+    refetch()
+      ?.then(() => {
+        if (data) {
+          const { findAllTeams } = data;
+          setTeams(findAllTeams);
+        }
+      })
+      .catch(() => {
+        setTeams([]);
+      });
   }, [data, teams]);
+
+  useEffect(() => {
+    if (!loadingSubscription && dataSubscription) {
+      setTeams([...teams, dataSubscription.teamAdded]);
+    }
+  }, [loadingSubscription, dataSubscription]);
 
   if (loading) return <h2>Loading...</h2>;
 
-  if (error) return <h2>Error to load data 😪</h2>;
+  if (error || teams.length === 0) return <h2>Error to load data 😪</h2>;
 
   return (
     <div className="content">

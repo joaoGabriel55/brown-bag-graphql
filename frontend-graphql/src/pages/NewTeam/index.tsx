@@ -28,7 +28,7 @@ const initialPlayerState = {
 function NewTeam() {
   const history = useHistory();
 
-  const [storeTeam, { data }] = useMutation(STORE_TEAM);
+  const [storeTeam] = useMutation(STORE_TEAM);
   const [storeTeamPlayers] = useMutation(STORE_TEAM_PLAYERS);
 
   const [team, setTeam] = useState<Team>({
@@ -184,7 +184,12 @@ function NewTeam() {
           {players.length > 0 &&
             players.map((player, index) => (
               <div className="player-simple-tile" key={player.photoUrl}>
-                <img src={player.photoUrl} width="50" height="50" alt={player.name} />
+                <img
+                  src={player.photoUrl}
+                  width="50"
+                  height="50"
+                  alt={player.name}
+                />
                 <p>
                   <strong>{player.name}</strong>
                 </p>
