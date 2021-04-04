@@ -4,6 +4,7 @@ import TeamModel from "../models/Team";
 interface Team {
   name: string;
   foundation: number;
+  logoUrl: string;
 }
 
 interface Player {
@@ -23,25 +24,31 @@ export const index = async (): Promise<any[]> => {
   let players = [];
   const teamsWithPlayers: any = [];
   for (const team of teams) {
-    const { id, name, foundation } = team;
+    const { id, name, foundation, logoUrl } = team;
     players = await Promise.all(
       team.players.map(async (playerId: string) => {
         const player = await PlayerModel.findById(playerId);
-        const { id, name, age, position } = player;
+        const { id, name, age, position, photoUrl } = player;
         return {
           id,
           name,
           age,
           position,
+          photoUrl,
         };
       })
     );
-    teamsWithPlayers.push({ id, name, foundation, players });
+    teamsWithPlayers.push({ id, name, foundation, logoUrl, players });
   }
   return teamsWithPlayers;
 };
 
-export const store = async (team: Team): Promise<Team> => {
+export const indexTeamPlayers = async (teamId: string): Promise<any[]> => {
+  const players: any[] = await PlayerModel.find({ team: teamId });
+  return players;
+};
+
+export const store = async (team: Team): Promise<any> => {
   const newTeam = await TeamModel.create(team);
   return newTeam;
 };
@@ -51,6 +58,7 @@ export const storeTeamPlayers = async ({
   players,
 }: TeamPlayers): Promise<Player[]> => {
   const team = await TeamModel.findById({ _id: teamId });
+  if (!team) return;
 
   const savedPlayers = [];
   for (let player of players) {
@@ -66,4 +74,18 @@ export const storeTeamPlayers = async ({
     }
   );
   return players;
+};
+
+export const removeTeam = async (teamId: string): Promise<Team> => {
+  try {
+    const team = await TeamModel.findById({ _id: teamId });
+    if (!team) return;
+
+    await TeamModel.deleteOne({ _id: teamId });
+    await PlayerModel.deleteMany({ team: teamId });
+    return team;
+  } catch (error) {
+    console.log(error);
+    throw Error("Error into remove team");
+  }
 };

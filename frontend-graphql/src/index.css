@@ -1,13 +1,50 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url("./images/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.default-button:hover {
+  background-color: rgb(180, 180, 180);
+}
+
+.default-button:disabled {
+  cursor: default;
+  transition: 0ms;
+  background-color: rgb(180, 180, 180);
+}
+
+.danger {
+  background-color: red;
+  color: white;
+  transition: 0.3s;
+}
+
+.danger:hover {
+  background-color: rgb(168, 0, 0);
+  color: white;
+}
+
+.primary {
+  background-color: green;
+  color: white;
+  transition: 0.3s;
+}
+
+.primary:hover {
+  background-color: rgb(0, 73, 0);
+  color: white;
 }

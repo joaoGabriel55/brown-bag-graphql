@@ -5,6 +5,7 @@ const PlayerSchema = new Schema(
     name: String,
     age: Number,
     position: String,
+    photoUrl: String,
     team: {
       type: Schema.Types.ObjectId,
       ref: "Team",

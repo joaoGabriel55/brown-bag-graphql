@@ -1,6 +1,11 @@
 import { PubSub } from "graphql-subscriptions";
-import Player from "../models/Player";
-import { index, store, storeTeamPlayers } from "../services/TeamService";
+import {
+  index,
+  indexTeamPlayers,
+  removeTeam,
+  store,
+  storeTeamPlayers,
+} from "../services/TeamService";
 
 const pubsub = new PubSub();
 const TOPICS = {
@@ -14,29 +19,29 @@ export default {
       return teams;
     },
     async findTeamPlayers(_: void, { teamId }) {
-      const players: [] = await Player.find({ team: teamId });
+      const players: any[] = await indexTeamPlayers(teamId);
       return players;
     },
   },
   Mutation: {
-    async storeTeam(_: void, { name, foundation }) {
-      pubsub.publish(TOPICS.TEAM_ADD, { teamAdded: { name, foundation } });
-      const newTeam = await store({ name, foundation });
+    async storeTeam(_: void, { name, foundation, logoUrl }) {
+      const newTeam = await store({ name, foundation, logoUrl });
+      pubsub.publish(TOPICS.TEAM_ADD, {
+        teamAdded: { id: newTeam.id, name, foundation, logoUrl },
+      });
       return newTeam;
     },
     async storeTeamPlayers(_: void, { teamId, players }) {
       const teamPlayers = storeTeamPlayers({ teamId, players });
       return teamPlayers;
     },
+    async removeTeam(_: void, { teamId }) {
+      const team = removeTeam(teamId);
+      return team;
+    },
   },
   Subscription: {
     teamAdded: {
-      resolve: (payload: any) => {
-        console.log(payload);
-        return {
-          customData: payload,
-        };
-      },
       subscribe: () => pubsub.asyncIterator([TOPICS.TEAM_ADD]),
     },
   },

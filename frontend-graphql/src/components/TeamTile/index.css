@@ -1,0 +1,18 @@
+.team-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(70, 70, 70, 0.445);
+  transition: 0.3s;
+  border-radius: 8px;
+  min-width: 208px;
+  padding: 8px;
+}
+
+.team-tile img {
+  object-fit: contain;
+}
+
+.team-tile:hover {
+  background-color: rgba(70, 70, 70, 0.692);
+}

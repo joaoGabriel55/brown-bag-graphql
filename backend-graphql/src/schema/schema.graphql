@@ -2,6 +2,7 @@ type Team {
   id: ID!
   name: String!
   foundation: Int!
+  logoUrl: String!
   players: [Player]
 }
 
@@ -9,6 +10,7 @@ type Player {
   id: ID!
   name: String!
   age: Int!
+  photoUrl: String!
   position: String!
   team: Team!
 }
@@ -17,6 +19,7 @@ type TeamOutput {
   id: ID!
   name: String!
   foundation: Int!
+  logoUrl: String!
   players: [PlayerOutput!]!
 }
 
@@ -24,12 +27,14 @@ type PlayerOutput {
   id: ID!
   name: String!
   age: Int!
+  photoUrl: String!
   position: String!
 }
 
 input PlayerInput {
   name: String!
   age: Int!
+  photoUrl: String!
   position: String!
 }
 
@@ -39,8 +44,9 @@ type Query {
 }
 
 type Mutation {
-  storeTeam(name: String!, foundation: Int!): TeamOutput!
+  storeTeam(name: String!, foundation: Int!, logoUrl: String!): TeamOutput!
   storeTeamPlayers(teamId: String!, players: [PlayerInput!]!): [Player!]!
+  removeTeam(teamId: String!): TeamOutput!
 }
 
 type Subscription {

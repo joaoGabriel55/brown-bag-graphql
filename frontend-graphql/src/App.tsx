@@ -1,8 +1,8 @@
 import { ApolloProvider } from "@apollo/client";
 import React from "react";
 import "./App.css";
-import Teams from "./components/Teams";
 import { api as client } from "./infra/api";
+import Router from "./router";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <header className="app-header">
           <h1>World Teams</h1>
         </header>
-        <Teams />
+        <Router />
         <div className="app-footer">
           <span>Made with love by Gabriel Quaresma</span>
         </div>
