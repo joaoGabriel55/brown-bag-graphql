@@ -1,8 +1,6 @@
-# Node.JS + Typescript
+# Node.JS + Typescript + GraphQL/Apollo Server
 
-## Init Database
-
-## Dev env
+## Dev setup
 
 `yarn add -D typescript sucrase`
 

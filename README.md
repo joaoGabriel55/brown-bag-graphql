@@ -1,11 +1,13 @@
-# GraphQL - Brown Bag topics
+# GraphQL using Apollo Server/Client - Codeminer42 Brown Bag
 
-- What is?
-- Advantages
-- Where use?
-- Who use?
-- Main concepts
-  - Schemas
-  - Query
-  - Mutations
-  - Subscriptions
+## How to run locally?
+
+### Backend
+
+- Setup `.env` file, server port and db url
+- Run `yarn run dev`
+
+### Frontend
+
+- Check and setup `.env` file;
+- Run `yarn start`
